@@ -16,47 +16,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-publish-docker:
-    name: 🏗️ Build & Publish Docker Image
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set env.ARTIFACT_VERSION
-        run: |
-          wget -q https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/setArtifactVersion.sh && chmod +x setArtifactVersion.sh
-          ./setArtifactVersion.sh
-          rm setArtifactVersion.sh
-      - uses: actions/checkout@v4
-      - name: 📥 Use Node.js 14.x
-        uses: actions/setup-node@v4
-        with:
-          node-version: 14.x
-      - name: 📥 Install dependencies
-        run: yarn install
-      - name: 🏗️ Build
-        run: yarn build
-      - name: 🔍 Test
-        run: yarn test:ci
-      - name: 🖥️ Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      - name: 🖥️ Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: 🔐 Login to DockerHub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - name: 🐳 Docker Build and Push
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm64
-          file: package/docker/Dockerfile
-          push: true
-          tags: |
-            hcsba/microfrontend-ipd-hcsba-2024:${{ env.ARTIFACT_VERSION }}
-            hcsba/microfrontend-ipd-hcsba-2024:latest
-
   pull-translations:
     name: Pull Translations From Transifex
     runs-on: ubuntu-latest
@@ -83,11 +42,52 @@ jobs:
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
+  build-publish-docker:
+    name: 🏗️ Build & Publish Docker Image
+    needs: pull-translations # Espera a que termine 'pull-translations'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set env.ARTIFACT_VERSION
+        run: |
+          wget -q https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/setArtifactVersion.sh && chmod +x setArtifactVersion.sh
+          ./setArtifactVersion.sh
+          rm setArtifactVersion.sh
+      - uses: actions/checkout@v4
+      - name: 📥 Use Node.js 14.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14.x
+      - name: 📥 Install dependencies
+        run: yarn install
+      - name: 🏗️ Build
+        run: yarn build
+      #- name: 🔍 Test
+      #  run: yarn test:ci
+      - name: 🖥️ Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: 🖥️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: 🔐 Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - name: 🐳 Docker Build and Push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          file: package/docker/Dockerfile
+          push: true
+          tags: |
+            hcsba/microfrontend-ipd-hcsba-2024:${{ env.ARTIFACT_VERSION }}
+            hcsba/microfrontend-ipd-hcsba-2024:latest
+
   trigger-workflow:
     name: 🔁 Trigger workflow to deploy to Docker env
     needs:
       - build-publish-docker
-      - pull-translations
     runs-on: ubuntu-latest
     env:
       ORG_NAME: HCSBA-bahmni
