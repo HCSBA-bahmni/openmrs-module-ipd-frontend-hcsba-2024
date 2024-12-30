@@ -38,8 +38,7 @@ jobs:
         run: $HOME/bin/tx --version
       
       - name: Pull Translations from Transifex
-        run: |
-          $HOME/bin/tx pull -l es --debug
+        run: $HOME/bin/tx pull -l es
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
 
