@@ -75,6 +75,8 @@ jobs:
         run: yarn install
       - name: 🏗️ Build
         run: yarn build
+      - name: Verificar Archivos Copiados
+        run: ls -la dist/i18n/
       #- name: 🔍 Test
       #  run: yarn test:ci
       - name: 🖥️ Set up QEMU
