@@ -24,7 +24,7 @@ const commonConfig = {
       filename: "styles.css",
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "public" }],
+      patterns: [{from: "public/i18n/*.json", to: "i18n/[name][ext]" }],
     }),
   ],
   module: {
