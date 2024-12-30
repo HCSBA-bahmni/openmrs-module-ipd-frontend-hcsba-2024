@@ -9,6 +9,7 @@ import {
   SEARCH_DRUG_URL,
   DAEMON_USER,
 } from "../constants";
+
 import { FormattedMessage } from "react-intl";
 export const getPatientDashboardUrl = (patientUuid) =>
   `/bahmni/clinical/#/default/patient/${patientUuid}/dashboard?currentTab=DASHBOARD_TAB_GENERAL_KEY`;
@@ -192,8 +193,8 @@ export const getNoDataCapturedMessage = (formName) => {
 export const mockConfig = {
   sections: [
     {
-      title: "Vitals and Nutritional Values",
-      componentKey: "VITALS_HEADER_KEY",
+      title:<FormattedMessage id={"VITALS_HEADER_KEY"} defaultMessage={"Vitals and Nutritional Values"}/>,
+      componentKey: "VT",
       displayOrder: 1,
       refreshKey: 1,
     },
