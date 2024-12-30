@@ -90,8 +90,8 @@ jobs:
       - pull-translations
     runs-on: ubuntu-latest
     env:
-      ORG_NAME: Bahmni
-      REPOSITORY_NAME: bahmni-docker
+      ORG_NAME: HCSBA-bahmni
+      REPOSITORY_NAME: openmrs-module-ipd-frontend-hcsba-2024
       EVENT_TYPE: bahmni-ipd-microfrontend-event
     steps:
       - name: 🔧 Create repository_dispatch
