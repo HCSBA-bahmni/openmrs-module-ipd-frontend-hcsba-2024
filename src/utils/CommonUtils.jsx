@@ -193,7 +193,7 @@ export const mockConfig = {
   sections: [
     {
       title: "Vitals and Nutritional Values",
-      componentKey: "VT",
+      componentKey: "VITALS_HEADER_KEY",
       displayOrder: 1,
       refreshKey: 1,
     },
