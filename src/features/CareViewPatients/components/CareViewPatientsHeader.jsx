@@ -124,7 +124,7 @@ export const CareViewPatientsHeader = (props) => {
       </div>
       <div className="search-and-tasklist">
         <Search
-          placeholder={IPD_WARD_SEARCH_PLACEHOLDER_TEXT}
+          placeholder={IPD_WARD_SEARCH_PLACEHOLDER_TEXT.IPD_WARD_SEARCH_PLACEHOLDER_TEXT}
           size="lg"
           id="ipd-ward-search"
           onChange={handleSearchOnChange}

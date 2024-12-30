@@ -70,13 +70,13 @@ export const SEARCH_CONCEPT_URL = RESTWS_V1 + "/concept";
 
 export const medicationFrequency = {
   START_TIME_DURATION_FREQUENCY: "START_TIME_DURATION_FREQUENCY",
-  FIXED_SCHEDULE_FREQUENCY: "FIXED_SCHEDULE_FREQUENCY",
+  FIXED_SCHEDULE_FREQUENCY: "FIXED_SCHEDULE_FREQUENCY"
 };
 
 export const serviceType = {
   AS_NEEDED_PLACEHOLDER: "AS_NEEDED_PLACEHOLDER",
   AS_NEEDED_MEDICATION_REQUEST: "AS_NEEDED_MEDICATION_REQUEST",
-  MEDICATION_REQUEST: "MEDICATION_REQUEST",
+  MEDICATION_REQUEST: "MEDICATION_REQUEST"
 };
 export const BAHMNI_ENCOUNTER_URL = RESTWS_V1 + "/bahmnicore/bahmniencounter";
 export const ENCOUNTER_TYPE_URL = RESTWS_V1 + "/encountertype/{encounterType}";
@@ -115,7 +115,7 @@ export const componentKeys = {
   DRUG_CHART: "DC",
   INTAKE_OUTPUT: "IO",
   NUTRITION_ADVICE_FORM: "NAF",
-  PATIENT_FEEDING_RECORD: "PFR",
+  PATIENT_FEEDING_RECORD: "PFR"
 };
 
 export const performerFunction = "Performer";
@@ -129,7 +129,7 @@ export const defaultDateTimeFormat24Hrs = "DD MMM YYYY HH:mm";
 export const defaultDateTimeFormat12Hrs = "DD MMM YYYY hh:mm A";
 
 export const IPD_WARD_SEARCH_PLACEHOLDER_TEXT =
-  "Type a minimum of 3 characters to search patient by name, bed number or patient ID";
+  { IPD_WARD_SEARCH_PLACEHOLDER_TEXT: "Type a minimum of 3 characters to search patient by name, bed number or patient ID" };
 
 export const MOBILE_BREAKPOINT = 480;
 export const TABLET_BREAKPOINT = 1024;
@@ -137,7 +137,7 @@ export const TABLET_BREAKPOINT = 1024;
 export const IPD_PAGE_TITLE = "IPD";
 export const WARD_SUMMARY_HEADER = {
   TOTAL_PATIENTS: "TOTAL_PATIENTS",
-  MY_PATIENTS: "MY_PATIENTS",
+  MY_PATIENTS: "MY_PATIENTS"
 };
 
 export const ForbiddenErrorMessage = "User doesn't have required privilege(s)";
@@ -145,11 +145,11 @@ export const ForbiddenErrorMessage = "User doesn't have required privilege(s)";
 export const GenericErrorMessage = "Technical error";
 
 export const errorCodes = {
-  FORBIDDEN: 403,
+  FORBIDDEN: 403
 };
 export const DAEMON_USER = {
   name: "daemon",
-  uuid: "A4F30A1B-5EB9-11DF-A648-37A07F9C90FB",
+  uuid: "A4F30A1B-5EB9-11DF-A648-37A07F9C90FB"
 };
 
 export const PRIVILEGE_CONSTANTS = {
@@ -158,5 +158,5 @@ export const PRIVILEGE_CONSTANTS = {
   EDIT_ADHOC_MEDICATION_TASKS: "Edit adhoc medication tasks",
   ADD_TASKS: "Add Tasks",
   EDIT_TASKS: "Edit Tasks",
-  EDIT_MEDICATION_ADMINISTRATION: "Edit Medication Administration",
+  EDIT_MEDICATION_ADMINISTRATION: "Edit Medication Administration"
 };
