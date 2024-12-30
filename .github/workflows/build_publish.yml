@@ -41,6 +41,9 @@ jobs:
         run: $HOME/bin/tx pull -l es
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
+      - name: Verificar Archivos Descargados
+        run: ls -la public/i18n/
+
 
   build-publish-docker:
     name: 🏗️ Build & Publish Docker Image
