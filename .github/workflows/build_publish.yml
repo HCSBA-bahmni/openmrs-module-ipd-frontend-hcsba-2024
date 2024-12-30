@@ -67,8 +67,8 @@ jobs:
           file: package/docker/Dockerfile
           push: true
           tags: |
-            bahmni/microfrontend-ipd:${{ env.ARTIFACT_VERSION }}
-            bahmni/microfrontend-ipd:latest
+            hcsba/microfrontend-ipd-hcsba-2024:${{ env.ARTIFACT_VERSION }}
+            hcsba/microfrontend-ipd-hcsba-2024:latest
 
   push-translations:
     name: Push Translations to Transifex
