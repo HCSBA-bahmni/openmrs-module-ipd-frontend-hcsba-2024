@@ -8,19 +8,17 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
     paths-ignore:
       - "**.md"
-  workflow_run:
-    workflows: [Pull Translations from Transifex]
-    types: [completed]
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
-  pull-translations:
-    name: Pull Translations From Transifex
+  build-publish-docker:
+    name: 🏗️ Pull Translations, Build & Publish Docker Image
     runs-on: ubuntu-latest
     steps:
+      # Paso 1: Descargar el repositorio
       - uses: actions/checkout@v2
+
+      # Paso 2: Instalar y configurar el cliente de Transifex
       - name: Instalar Cliente de Transifex
         run: |
           curl -o transifex.sh https://raw.githubusercontent.com/transifex/cli/master/install.sh
@@ -28,57 +26,41 @@ jobs:
           mkdir -p $HOME/bin
           mv tx $HOME/bin/tx
         shell: bash
-  
+
       - name: Configurar PATH para el cliente de Transifex
         run: echo "$HOME/bin:$PATH" >> $GITHUB_PATH
-  
+
+      # Paso 3: Descargar traducciones
       - name: Descargar Traducciones de Transifex
         run: |
           $HOME/bin/tx pull -l es
           ls -la public/i18n/
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
-  
-      - name: Guardar Traducciones como Artefacto
-        uses: actions/upload-artifact@v3
-        with:
-          name: translations
-          path: public/i18n
 
-  build-publish-docker:
-    name: 🏗️ Build & Publish Docker Image
-    needs: pull-translations # Espera a que termine 'pull-translations'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Descargar Traducciones del Artefacto
-        uses: actions/download-artifact@v3
-        with:
-          name: translations
-          path: public/i18n
-          
+      # Paso 4: Verificar traducciones descargadas
       - name: Verificar traducciones descargadas
         run: ls -la public/i18n/
-        
+
+      # Paso 5: Configurar versión del artefacto
       - name: Set env.ARTIFACT_VERSION
         run: |
           wget -q https://raw.githubusercontent.com/Bahmni/bahmni-infra-utils/main/setArtifactVersion.sh && chmod +x setArtifactVersion.sh
           ./setArtifactVersion.sh
           rm setArtifactVersion.sh
-      - uses: actions/checkout@v4
-      - name: 📥 Use Node.js 14.x
-        uses: actions/setup-node@v4
+
+      # Paso 6: Configurar Node.js
+      - uses: actions/setup-node@v4
         with:
           node-version: 14.x
+
+      # Paso 7: Instalar dependencias y construir la aplicación
       - name: 📥 Install dependencies
         run: yarn install
       - name: 🏗️ Build
         run: yarn build
-      - name: Verificar Archivos Copiados
-        run: ls -la dist/i18n/
-      #- name: 🔍 Test
-      #  run: yarn test:ci
+
+      # Paso 8: Configurar Docker y construir la imagen
       - name: 🖥️ Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: 🖥️ Set up Docker Buildx
@@ -101,8 +83,7 @@ jobs:
 
   trigger-workflow:
     name: 🔁 Trigger workflow to deploy to Docker env
-    needs:
-      - build-publish-docker
+    needs: build-publish-docker
     runs-on: ubuntu-latest
     env:
       ORG_NAME: HCSBA-bahmni
